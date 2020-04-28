@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>动态路由</title>
+  <!-- 引入vue -->
+  <script src="node_modules/vue/dist/vue.min.js"></script>
+  <!-- 引入vue-router -->
+  <script src="node_modules/vue-router/dist/vue-router.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .content {
+      padding-top: 20px;
+      border-top: 1px solid orange;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    {{ title }}
+    <nav>
+      <ul>
+        <li>
+          <router-link to="/user/123/tzz">foo</router-link>
+          <router-link to="/user/100/summer">bar</router-link>
+        </li>
+      </ul>
+    </nav>
+    <div class="content">
+      <!-- 路由出口 -->
+      <router-view />
+    </div>
+  </div>
+  <script>
+
+    const User = {
+      template: `<div>
+        <h1>User: {{ id }}</h1>
+        <h1>name: {{ name }}</h1>
+        </div>`,
+      // template: '<div>User {{ $route.params.id }}</div>'
+      computed: {
+        id() {
+          // console.log(this.$route);
+          return this.$route.params.id;
+        },
+        name() {
+          return this.$route.params.name;
+        }
+      },
+      watch: {
+        '$route'(to, from) {
+          // 对路由变化作出响应...
+          console.log('--to', to);
+          console.log('--from', from);
+        }
+      },
+      // 不仅可以检测，还可以阻止
+      // beforeRouteUpdate(to, from, next) {
+      //   console.log('beforeRouteUpdate-->', to, from);
+      // }
+    }
+    // 创建 router 实例，然后传 routes 配置，你还可以传别的配置参数，不过先弄简单一点的
+    const router = new VueRouter({
+      routes: [
+        {
+          path: '/user/:id/:name',
+          component: User
+        }
+      ]
+    })
+
+    //  初始一个 app 对象, vue 的初始化
+    var app = new Vue({
+      el: '#app',
+      router,
+      data: {
+        title: 'hello vue-router!',
+      },
+      methods: {
+      }
+    })
+  </script>
+</body>
+
+</html>

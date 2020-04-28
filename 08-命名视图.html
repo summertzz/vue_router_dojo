@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>命名视图</title>
+  <!-- 引入vue -->
+  <script src="node_modules/vue/dist/vue.min.js"></script>
+  <!-- 引入vue-router -->
+  <script src="node_modules/vue-router/dist/vue-router.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: inline-block;
+      padding: 10px;
+      list-style: none;
+    }
+
+
+
+    .header,
+    .banner,
+    .footer,
+    .content {
+      height: 100px;
+      background-color: #eee;
+      margin: 10px;
+    }
+
+    .banner {
+      float: left;
+      width: 100px;
+    }
+
+    .content {
+      margin-left: 120px;
+    }
+
+    .footer {
+      clear: both;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    {{ title }}
+    <div class="container">
+      <router-view class="view header" name="header"></router-view>
+      <router-view class="view banner" name="banner"></router-view>
+      <router-view class="view content" name="content"></router-view>
+      <router-view class="view footer" name="footer"></router-view>
+    </div>
+    <!--这里给其中视图命名为header，banner，content，footer;没有设置name的视图,会获得默认命名为default>
+    <!-- 默认路由  -->
+    <router-view></router-view>
+  </div>
+  <script>
+
+    /**
+     * vue-router 是 vue.js 的一个插件，vue-router 要进行注册
+     * 需要定义模板，即 template （很多个）
+     * vue - router 的定义规则，完成模板和 hash 的匹配规则
+     * 如果在页面中定义调用转发的路由 -- a 标签
+     * 模板的内容放在什么地方 <router-view/>
+     */
+
+    // 创建 router 实例，然后传 routes 配置，
+    const router = new VueRouter({
+      // tangyuan, jiaozi
+      // 这里是一个数组对象
+      routes: [
+        {
+          path: '/',
+          //如果有多个视图需要展示时,以前的component换成components(加上s!)
+          components: {
+            header: {
+              template: "<div class=\"header\">头部</div>",
+            },
+            banner: {
+              template: "<div class=\"banner\">banner</div>",
+            },
+            content: {
+              template: "<div class=\"content\">content</div>",
+            },
+            footer: {
+              template: "<div class=\"footer\">footer</div>",
+            },
+            default: {
+              template: "<h1>我是默认路由</h1>"
+            }
+          }
+        }
+      ]
+
+    })
+
+    //  初始一个 app 对象, vue 的初始化
+    var app = new Vue({
+      el: '#app',
+      router,
+      data: {
+        title: 'hello vue-router!'
+      },
+      methods: {
+        // 处理返回操作
+        goback() {
+          console.log('window.history', window.history);
+          window.history.length > 1 ? this.$router.go(-1) : this.$router.go('/tangyuan')
+        }
+      }
+    })
+
+  </script>
+</body>
+
+</html>

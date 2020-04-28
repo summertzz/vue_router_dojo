@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>VueRouter的定义</title>
+  <!-- 引入vue -->
+  <script src="node_modules/vue/dist/vue.min.js"></script>
+  <!-- 引入vue-router -->
+  <script src="node_modules/vue-router/dist/vue-router.js"></script>
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <router-view />
+  </div>
+  <script>
+
+    /**
+     * vue-router 是 vue.js 的一个插件，vue-router 要进行注册
+     * 需要定义模板，即 template （很多个）
+     * vue - router 的定义规则，完成模板和 hash 的匹配规则
+     * 如果在页面中定义调用转发的路由 -- a 标签
+     * 模板的内容放在什么地方 <router-view/>
+     */
+
+    // 定义模板
+    const Home = {
+      template: `
+        <div>
+         <h1>home</h1>
+           <div>
+            <p>
+              使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动
+              </p>
+            <p>
+              使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动
+              </p>
+            <p>
+              使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动
+              </p>
+            <p>
+              使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动
+              </p>
+            <p>
+              使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动
+              </p>
+            <p>
+              使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动
+              </p>
+            <p>
+              使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动
+              </p>
+            <p>
+              使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动
+              </p>
+            </div>
+            <router-link to='/about'>关于</router-link>
+          </div>
+      ` };
+
+    const About = {
+      template: `
+     <div> <h1>about</h1>
+      <p>this is about</p>
+         <p>
+              使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动
+              </p>   <p>
+              使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动
+              </p>   <p>
+              使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动使用前端路由，当切换到新路由时，想要页面滚到顶部，或者是保持原先的滚动位置，就像重新加载页面那样。 vue-router 能做到，而且更好，它让你可以自定义路由切换时页面如何滚动
+              </p>
+             <router-link to='/'>首页</router-link></div>
+      `
+    }
+    // 创建 router 实例，然后传 routes 配置，你还可以传别的配置参数
+    const router = new VueRouter({
+      routes: [
+        {
+          path: '/',
+          component: Home,
+        },
+        {
+          path: '/about',
+          component: About,
+        }
+      ],
+      scrollBehavior(to, from, savedPosition) {
+        console.log('scrollBehavior', to, from);
+        if (to.path === '/about') {
+          return { x: 0, y: 0 }
+        }
+        return { x: 0, y: 200 }
+      }
+    })
+
+
+    //  初始一个 app 对象, vue 的初始化
+    var app = new Vue({
+      el: '#app',
+      router,
+      data: {
+      }
+    })
+
+  </script>
+</body>
+
+</html>

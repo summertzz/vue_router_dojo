@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>编程式导航</title>
+  <!-- 引入vue -->
+  <script src="node_modules/vue/dist/vue.min.js"></script>
+  <!-- 引入vue-router -->
+  <script src="node_modules/vue-router/dist/vue-router.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: inline-block;
+      padding: 10px;
+      list-style: none;
+    }
+
+    .content {
+      padding-top: 20px;
+      border-top: 1px solid orange;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    {{ title }}
+    <nav>
+      <ul>
+        <!-- 通过name -->
+        <li><a href="javascript:void(0);" @click="toLink('Home')">首页</a></li>
+        <li><a href="javascript:void(0);" @click="toLink('Content')">内容</a></li>
+        <li><a href="javascript:void(0);" @click="toLink('About')">关于</a></li>
+        <!-- <li><a href="javascript:void(0);" @click="toLink('Baozi')">包子组件</a></li> -->
+      </ul>
+    </nav>
+    <div class="content">
+      <!-- 路由出口 -->
+      <router-view />
+    </div>
+  </div>
+  <script>
+
+    // 定义模板
+    const home = { template: '<div>首页视图</div>' };
+    const content = { template: '<div>内容视图</div>' };
+
+    // 创建 router 实例，然后传 routes 配置，你还可以传别的配置参数，
+    const router = new VueRouter({
+      routes: [
+        // 路由一 首页
+        {
+          path: '/home',
+          component: home,
+          name: 'Home'
+        },
+        // 路由二 - 内容
+        {
+          path: '/content',
+          component: content,
+          name: 'Content'
+        },
+        // 路由三 - 关于 内部定义template
+        {
+          path: '/about',
+          component: {
+            template: '<div>关于视图</div>'
+          },
+          name: 'About'
+        },
+      ]
+
+    })
+
+    //  初始一个 app 对象, vue 的初始化
+    var app = new Vue({
+      el: '#app',
+      router,
+      data: {
+        title: 'hello vue-router!'
+      },
+      methods: {
+        toLink(path) {
+          this.$router.push(path);
+          // this.$router.push({path: path}); 通过 path
+          // this.$router.push({name: path});  // 通过 name
+          // this.$router.replace(path);
+        }
+
+        // login() {
+        //   this.$axios.get('/login').then((res) => {
+        //     this.$router.push('index')
+        //   })
+        // }
+      }
+    })
+  </script>
+</body>
+
+</html>

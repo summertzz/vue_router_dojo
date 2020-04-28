@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>VueRouter的定义</title>
+  <!-- 引入vue -->
+  <script src="node_modules/vue/dist/vue.min.js"></script>
+  <!-- 引入vue-router -->
+  <script src="node_modules/vue-router/dist/vue-router.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: inline-block;
+      padding: 10px;
+      list-style: none;
+    }
+
+    .header,
+    .banner,
+    .footer,
+    .content {
+      height: 100px;
+      background-color: #eee;
+      margin: 10px;
+    }
+
+    .banner {
+      float: left;
+      width: 100px;
+    }
+
+    .content {
+      margin-left: 120px;
+    }
+
+    .footer {
+      clear: both;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    {{ title }}
+    <a href="#/food/123/baozi">查看food详情</a>
+    <router-view></router-view>
+  </div>
+  <script>
+    // 第一种传参方式
+    // const foodComponent = {
+    //   template: "<div>我的id是: {{food.id}}, 我的名字是: {{food.name}} </div>",
+    //   computed: {
+    //     food() {
+    //       var id = this.$route.params.id;
+    //       var name = this.$route.params.name;
+    //       return {
+    //         id: id,
+    //         name: name
+    //       }
+    //     }
+    //   }
+    // }
+
+    // 第二种传参方式
+    // const foodComponent = {
+    //   template: "<div>我的id是: {{$route.params.id}}, 我的名字是: {{$route.params.name}} </div>",
+    // }
+
+    // 第三种方式 props
+    // const foodComponent = {
+    //   props: ['id', 'name'],
+    //   template: "<div>我的id是: {{id}}, 我的名字是: {{name}} </div>",
+    // }
+
+    // 对象模式
+    const foodComponent = {
+      props: ['id', 'name'],
+      template: "<div>我的id是: {{id}}, 我的名字是: {{name}} </div>",
+    }
+
+
+    // 创建 router 实例，然后传 routes 配置，
+    const router = new VueRouter({
+      routes: [
+        {
+          path: '/food/:id/:name',
+          component: foodComponent,
+          // 第三种传值方式 props, 自动把 id， name 作为组件的属性，
+          // props: true
+          //布尔模式，route.props 会自动设为组件属性
+
+          // 第四种传值方式 对象模式
+          // 如果 props 是一个对象，它会被按原样设置为组件属性。当 props 是静态的时候有用。
+          // 静态数据，也就是 props 的数据是固定死的
+          // props: {
+          //   id: '0001',
+          //   name: '馒头'
+          // }
+
+          // 函数模式 动态的 根据参数来渲染， 同时也可以在这里定义数据请求查询
+          props: (route) => {
+            console.log(route);
+            return route.params;
+          }
+        }
+      ]
+    })
+
+    //  初始一个 app 对象, vue 的初始化
+    var app = new Vue({
+      el: '#app',
+      router,
+      components: {
+        foodComponent
+      },
+      data: {
+        title: 'hello vue-router!'
+      },
+      methods: {
+      }
+    })
+
+  </script>
+</body>
+
+</html>

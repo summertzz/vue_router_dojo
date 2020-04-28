@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>VueRouter的定义</title>
+  <!-- 引入vue -->
+  <script src="node_modules/vue/dist/vue.min.js"></script>
+  <!-- 引入vue-router -->
+  <script src="node_modules/vue-router/dist/vue-router.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: inline-block;
+      padding: 10px;
+      list-style: none;
+    }
+
+    .content {
+      padding-top: 20px;
+      border-top: 1px solid orange;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <p>
+      <router-link to="/user/foo">/user/foo</router-link>
+      <router-link to="/user/foo/profile">/user/foo/profile</router-link>
+      <router-link to="/user/foo/posts">/user/foo/posts</router-link>
+    </p>
+    <!--这里展示的是User组件;同样User的<router-view/>也被嵌套在里面-->
+    <router-view></router-view>
+  </div>
+  <script>
+
+    /**
+     * vue-router 是 vue.js 的一个插件，vue-router 要进行注册
+     * 需要定义模板，即 template （很多个）
+     * vue - router 的定义规则，完成模板和 hash 的匹配规则
+     * 如果在页面中定义调用转发的路由 -- a 标签
+     * 模板的内容放在什么地方 <router-view/>
+     */
+
+    // User的<router-view>里展示的就是子路由profile，post的组件还有home默认组件
+    const User = {
+      template: `<div class="user"><h1>User {{ $route.params.id }}</h1>
+                  <router-view></router-view>
+                </div>
+      `
+    }
+
+    const UserHome = { template: '<div>home</div>' }
+    const UserProfile = { template: '<div>profile</div>' }
+    const UserPosts = { template: '<div>posts</div>' }
+
+    // 创建 router 实例，然后传 routes 配置
+    const router = new VueRouter({
+      routes: [
+        {
+          path: '/user/:id',
+          component: User,
+          //嵌套路由就写在children配置中,写法和routes一样.
+          children: [
+            {
+              path: '',
+              component: UserHome
+              // 这里也可以写成重定向，
+              //children:[{}]   也可以继续添加children嵌套
+            },
+            //如果/user下没有匹配到其他子路由时,User的<router-view>是什么都不会显示的,如果你想让它显示点什么.可以将path:''.设为空.此时UserDefault就是默认显示的组件.
+            {
+              path: 'profile',
+              component: UserProfile
+            },
+            //此时path等同于'/user/profile',子路由会继承父路由的路径.但是不能写成path:'/profile'.因为以 / 开头的嵌套路径会被当作根路径,也就是说此时profile成了根路径.而不是user.
+            {
+              path: 'posts',
+              component: UserPosts
+            }
+          ]
+        }
+      ]
+
+    })
+
+    //  初始一个 app 对象, vue 的初始化
+    var app = new Vue({
+      el: '#app',
+      router,
+
+      data: {
+        title: 'hello vue-router!'
+      },
+      methods: {
+      }
+    })
+  </script>
+</body>
+
+</html>

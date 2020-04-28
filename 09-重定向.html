@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>VueRouter的定义</title>
+  <!-- 引入vue -->
+  <script src="node_modules/vue/dist/vue.min.js"></script>
+  <!-- 引入vue-router -->
+  <script src="node_modules/vue-router/dist/vue-router.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: inline-block;
+      padding: 10px;
+      list-style: none;
+    }
+
+    .router-link-active {
+      padding: 10px;
+      color: #fff;
+      background-color: orange;
+    }
+
+    .tzz {
+      padding: 10px;
+      color: #fff;
+      background-color: orange;
+    }
+
+    .content {
+      padding-top: 20px;
+      border-top: 1px solid orange;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    {{ title }}
+    <nav>
+      <!-- 请求地址方式 2 router-link -->
+      <ul>
+        <li>
+          <button @click="goback">返回</button>
+        </li>
+        <li>
+          <router-link to="/home">首页</router-link>
+          <router-link to="/content">内容</router-link>
+          <router-link to="/about">关于</router-link>
+          <router-link to="/article">文章组件</router-link>
+        </li>
+      </ul>
+    </nav>
+    <div class="content">
+      <!-- 路由出口 -->
+      <router-view />
+    </div>
+  </div>
+  <script>
+
+    // 定义 vue 组件
+    var articleComponent = {
+      template: '<div>{{ message }}</div>',
+      data() {
+        return {
+          message: '我是一个文章组件'
+        }
+      }
+    }
+
+    // 定义模板
+    const home = { template: '<div>首页视图</div>' };
+    const content = { template: '<div>内容视图</div>' };
+
+    // 创建 router 实例，然后传 routes 配置，
+    const router = new VueRouter({
+      routes: [
+        // 路由一 首页
+        {
+          path: '/home',
+          component: home,
+          name: 'home'
+        },
+        // 路由二 - 内容
+        {
+          path: '/content',
+          component: content,
+          name: 'content'
+        },
+        // 路由三 - 关于 内部定义template
+        {
+          path: '/about',
+          component: {
+            template: '<div>关于视图</div>'
+          },
+          name: 'about'
+        },
+        // 路由四 - 文章组件
+        {
+          path: '/article',
+          component: articleComponent,
+          name: 'article'
+        },
+        {
+          path: '*',
+          redirect: '/home'
+        }
+      ]
+
+    })
+
+    //  初始一个 app 对象, vue 的初始化
+    var app = new Vue({
+      el: '#app',
+      router,
+      data: {
+        title: 'hello vue-router!'
+      },
+      methods: {
+        // 处理返回操作
+        goback() {
+          console.log('window.history', window.history);
+          window.history.length > 1 ? this.$router.go(-1) : this.$router.go('/home')
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
